@@ -181,13 +181,12 @@ async def tkb_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 reply_markup=reply_markup,
             )
 
-    match data:
-        case "10ti":
-            tkb_file = open(f"./tkb/{data}.jpg", "rb")
-            await query.edit_message_media(InputMediaPhoto(media=tkb_file))
-        case "10t":
-            tkb_file = open(f"./tkb/{data}.jpg", "rb")
-            await query.edit_message_media(InputMediaPhoto(media=tkb_file))
-        case "10sd":
-            tkb_file = open(f"./tkb/{data}.jpg", "rb")
-            await query.edit_message_media(InputMediaPhoto(media=tkb_file))
+    tkb_list = []
+    file_names = os.listdir("./tkb")
+    for file_name in file_names:
+        base_name = file_name.split(".")[0]
+        tkb_list.append(base_name)
+
+    if data in tkb_list:
+        tkb_file = open(f"./tkb/{data}.jpg", "rb")
+        await query.edit_message_media(InputMediaPhoto(media=tkb_file))
