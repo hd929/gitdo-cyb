@@ -119,7 +119,6 @@ def handle_response(text: str, update, context) -> str:
         ("ping", status(update, context)),
         ("thả thính", thathinh(update, context)),
         ("hello", [random.choice(chao)]),
-        ("tkb", ["Bạn muốn biết tkb lớp nào :))"]),
     ]
 
     for s, ans in responses:
@@ -134,23 +133,29 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     response_list = handle_response(user_message, update, context)
 
     if user_message.lower() == "tkb":
-        keyboard = [
-            [InlineKeyboardButton("Khối 10", callback_data="10")],
-            [InlineKeyboardButton("Khối 11", callback_data="11")],
-            [InlineKeyboardButton("Khối 12", callback_data="12")],
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-
-        await update.message.reply_text(
-            response_list[0], reply_markup=reply_markup  # Display the initial prompt
-        )
+        pass
     else:
         for response in response_list:
             await update.message.reply_text(response)
 
 
 async def tkb(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    keyboard = [
+        [InlineKeyboardButton("Khối 10", callback_data="10")],
+        [InlineKeyboardButton("Khối 11", callback_data="11")],
+        [InlineKeyboardButton("Khối 12", callback_data="12")],
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    await update.message.reply_text(
+        "Bạn muốn lấy thời khóa biểu khôi nào?",
+        reply_markup=reply_markup,  # Display the initial prompt
+    )
+
+
+async def tkb_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Callback handler for inline buttons."""
+
     query = update.callback_query
     data = query.data
     await query.answer()
