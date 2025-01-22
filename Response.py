@@ -14,17 +14,24 @@ import random
 
 start_time = time.time()
 
-thathinh_file = open("./thathinh.txt", "r")
-thathinh_list = thathinh_file.read().split("\n")
-thathinh_list.pop()
+thathinh_file = open("./thathinh.txt", "r", encoding="utf-8")
+thathinh_list = []
+with thathinh_file as file:
+    for line in file:
+        thathinh_list.append(line)
 
-casual_responses_file = open("./casual_responses.txt", "r")
-casual_responses = casual_responses_file.read().split("\n")
-casual_responses.pop()
+casual_responses_file = open("./casual_responses.txt", "r", encoding="utf-8")
+casual_responses = []
 
-chao_files = open("./chao.txt", "r")
-chao = chao_files.read().split("\n")
-chao.pop()
+with casual_responses_file as file:
+    for line in file:
+        casual_responses.append(line)
+
+chao_files = open("./chao.txt", "r", encoding="utf-8")
+chao = []
+with chao_files as file:
+    for line in file:
+        chao.append(line)
 
 user_ids = set()
 ADMIN_USER_ID = 5889848203
@@ -159,11 +166,6 @@ async def tkb_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.callback_query
     data = query.data
     await query.answer()
-
-    tkb10ti = open("./tkb/10ti.jpg", "rb")
-    tkb10t = open("./tkb/10t.jpg", "rb")
-    tkb10sd = open("./tkb/10sd.jpg", "rb")
-
     match data:
         case "10":
             keyboard = [
@@ -179,11 +181,13 @@ async def tkb_button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 reply_markup=reply_markup,
             )
 
-    # Respond based on user selection
     match data:
         case "10ti":
-            await query.edit_message_media(InputMediaPhoto(media=tkb10ti))
+            tkb_file = open(f"./tkb/{data}.jpg", "rb")
+            await query.edit_message_media(InputMediaPhoto(media=tkb_file))
         case "10t":
-            await query.edit_message_media(InputMediaPhoto(media=tkb10t))
+            tkb_file = open(f"./tkb/{data}.jpg", "rb")
+            await query.edit_message_media(InputMediaPhoto(media=tkb_file))
         case "10sd":
-            await query.edit_message_media(InputMediaPhoto(media=tkb10sd))
+            tkb_file = open(f"./tkb/{data}.jpg", "rb")
+            await query.edit_message_media(InputMediaPhoto(media=tkb_file))
